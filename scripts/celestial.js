@@ -32,54 +32,14 @@
         description: 'The smaller blue moon. Governs arcane currents and prophecy.',
       },
     ],
+    // Boons and pitfalls are intentionally empty in this default.
+    // Add your own via Module Settings → Custom Calendar JSON (exported from DnD Parser Toolkit).
     eventEffects: {
-      conjunction: {
-        boons: [
-          'Healing spells restore an additional 1d8 hit points',
-          'Once before the next conjunction, a creature may reroll one failed d20',
-        ],
-        pitfalls: [
-          'Wild magic surges trigger on a 1–3 (instead of 1) on the Wild Magic table',
-          'Restless night: werewolves, fiends, and undead are more aggressive',
-        ],
-      },
-      opposition: {
-        boons: [
-          "Luna's Favor: creatures gain temporary HP equal to 1d10 + character level at dusk",
-          "Selene's Insight: advantage on Insight and Arcana checks until dawn",
-          'Sharper senses: advantage on Perception checks that rely on sight',
-        ],
-        pitfalls: [
-          'Frayed focus: concentration checks require a DC 10 save each turn, even without damage',
-          'Volatile emotions: social interactions are unpredictable — advantage AND disadvantage',
-        ],
-      },
-      fullMoon: {
-        boons: [
-          "Luna's light: bright moonlight extends to 80 ft, even near open windows indoors",
-        ],
-        pitfalls: [
-          'Lycanthropes must succeed on a DC 15 Wisdom saving throw or be forced to transform',
-        ],
-      },
-      newMoon: {
-        boons: [
-          'Shadows deepen: rogues and rangers have advantage on Stealth checks outdoors',
-        ],
-        pitfalls: [
-          'Blindsight fails: creatures relying on moonlight for navigation move at half speed outdoors',
-        ],
-      },
-      eclipse: {
-        boons: [
-          'Blood moon: divination spells cast tonight reveal one additional true detail beyond their normal scope',
-          'Lycanthropes who embrace the crimson light may transform voluntarily with no save required',
-        ],
-        pitfalls: [
-          'Undead regain 1d6 hit points at the start of their turns for the duration of the eclipse',
-          'The darkened moons unsettle all creatures: Wisdom saving throws have disadvantage until dawn',
-        ],
-      },
+      conjunction: { boons: [], pitfalls: [] },
+      opposition:  { boons: [], pitfalls: [] },
+      fullMoon:    { boons: [], pitfalls: [] },
+      newMoon:     { boons: [], pitfalls: [] },
+      eclipse:     { boons: [], pitfalls: [] },
     },
   };
 
