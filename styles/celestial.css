@@ -1,0 +1,226 @@
+/* ================================================================
+ * Celestial Calendar — Foundry VTT Module
+ * Author: Tonyb29 | https://github.com/Tonyb29/Celestial-Calendar
+ * ================================================================ */
+
+/* ── App window ── */
+.cel-app .window-content {
+  background: #0f172a;
+  padding: 0;
+  color: #e2e8f0;
+  font-family: inherit;
+  overflow-y: auto;
+}
+
+.cel-panel {
+  padding: 10px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* ── Night sky ── */
+.cel-sky-wrap {
+  border-radius: 7px;
+  overflow: hidden;
+  line-height: 0;
+  border: 1px solid #1e293b;
+}
+
+.cel-sky-wrap svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── World header ── */
+.cel-world-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.cel-world-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #67e8f9;
+  letter-spacing: 0.03em;
+}
+
+.cel-year-badge {
+  font-size: 10px;
+  color: #475569;
+  font-style: italic;
+}
+
+/* ── Navigator ── */
+.cel-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #0d1117;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 6px 8px;
+  flex-wrap: wrap;
+}
+
+.cel-nav button {
+  background: none;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 10px;
+  line-height: 1.5;
+  transition: background 0.1s, color 0.1s, border-color 0.1s;
+  white-space: nowrap;
+}
+
+.cel-nav button:hover {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: #475569;
+}
+
+.cel-day-display {
+  flex: 1;
+  text-align: center;
+  min-width: 80px;
+}
+
+.cel-day-num {
+  color: #e2e8f0;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.cel-year-num {
+  color: #64748b;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+/* ── Moon cards ── */
+.cel-moons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cel-moon-card {
+  background: #0d1117;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 11px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.cel-moon-icon svg {
+  display: block;
+}
+
+.cel-moon-name {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.cel-moon-phase {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.cel-moon-detail {
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+/* ── Section labels ── */
+.cel-section-label {
+  font-weight: 600;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 6px;
+  color: #a78bfa;
+}
+
+.cel-label-boon    { color: #4ade80; }
+.cel-label-pitfall { color: #f87171; margin-top: 6px; }
+
+/* ── Tonight's events ── */
+.cel-events {
+  background: #060912;
+  border: 1px solid #7c3aed33;
+  border-radius: 8px;
+  padding: 8px 11px;
+}
+
+.cel-event {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 3px;
+  line-height: 1.5;
+}
+
+/* ── Boons & Pitfalls ── */
+.cel-bp {
+  background: #060912;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 8px 11px;
+}
+
+.cel-bp-item {
+  font-size: 11px;
+  margin-bottom: 3px;
+  line-height: 1.55;
+  padding-left: 12px;
+  position: relative;
+}
+
+.cel-bp-item::before {
+  content: '•';
+  position: absolute;
+  left: 2px;
+  opacity: 0.6;
+}
+
+.cel-boon    { color: #86efac; }
+.cel-pitfall { color: #fca5a5; }
+
+/* ── SC hint ── */
+.cel-sc-hint {
+  color: #334155;
+  font-size: 10px;
+  font-style: italic;
+  text-align: center;
+  line-height: 1.6;
+  padding: 0 4px 2px;
+}
+
+/* ── Journal sidebar button ── */
+.cel-journal-btn {
+  background: none !important;
+  border: 1px solid #334155 !important;
+  border-radius: 4px !important;
+  color: #94a3b8 !important;
+  cursor: pointer;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  margin-left: 4px;
+  transition: color 0.1s, border-color 0.1s, background 0.1s;
+}
+
+.cel-journal-btn:hover {
+  color: #67e8f9 !important;
+  border-color: #0e7490 !important;
+  background: rgba(14,116,144,0.08) !important;
+}

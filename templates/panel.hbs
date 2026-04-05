@@ -1,0 +1,77 @@
+<div class="cel-panel">
+
+  {{!-- Night sky SVG --}}
+  <div class="cel-sky-wrap">{{{skyHtml}}}</div>
+
+  {{!-- World name + year event count --}}
+  <div class="cel-world-header">
+    <span class="cel-world-name">{{calName}}</span>
+    <span class="cel-year-badge">{{yearEventsCount}} celestial events this year</span>
+  </div>
+
+  {{!-- Day navigator --}}
+  <div class="cel-nav">
+    <button type="button" data-action="prev-event" title="Jump to previous event">← Event</button>
+    <button type="button" data-action="nav" data-delta="-7" title="-7 days">−7</button>
+    <button type="button" data-action="nav" data-delta="-1" title="Previous day">◀</button>
+    <div class="cel-day-display">
+      <span class="cel-day-num">Day {{day}}</span>
+      <span class="cel-year-num">Year {{year}}</span>
+    </div>
+    <button type="button" data-action="nav" data-delta="1" title="Next day">▶</button>
+    <button type="button" data-action="nav" data-delta="7" title="+7 days">+7</button>
+    <button type="button" data-action="next-event" title="Jump to next event">Event →</button>
+    <button type="button" data-action="reset" title="Return to today">⟳</button>
+  </div>
+
+  {{!-- Moon cards --}}
+  <div class="cel-moons">
+    {{#each moons}}
+    <div class="cel-moon-card">
+      <div class="cel-moon-icon">{{{svgIcon}}}</div>
+      <div class="cel-moon-info">
+        <div class="cel-moon-name" style="color: {{color}}">{{name}}</div>
+        <div class="cel-moon-phase">{{phaseName}}</div>
+        <div class="cel-moon-detail">{{illum}}% lit &middot; {{orbitDays}}d orbit</div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  {{!-- Tonight's events --}}
+  {{#if hasEvents}}
+  <div class="cel-events">
+    <div class="cel-section-label">✦ Tonight's Events</div>
+    {{#each events}}
+    <div class="cel-event" style="color: {{color}}">{{icon}} {{label}}</div>
+    {{/each}}
+  </div>
+  {{/if}}
+
+  {{!-- Boons & Pitfalls --}}
+  {{#if hasBP}}
+  <div class="cel-bp">
+    {{#if boons.length}}
+    <div class="cel-section-label cel-label-boon">⬆ Boons</div>
+    {{#each boons}}
+    <div class="cel-bp-item cel-boon">{{this}}</div>
+    {{/each}}
+    {{/if}}
+    {{#if pitfalls.length}}
+    <div class="cel-section-label cel-label-pitfall">⬇ Pitfalls</div>
+    {{#each pitfalls}}
+    <div class="cel-bp-item cel-pitfall">{{this}}</div>
+    {{/each}}
+    {{/if}}
+  </div>
+  {{/if}}
+
+  {{!-- Simple Calendar hint shown only when SC is not active --}}
+  {{#unless scActive}}
+  <div class="cel-sc-hint">
+    Tip: Install <strong>Simple Calendar</strong> for automatic date sync,
+    or set <em>Module Settings → Current Campaign Day</em> manually.
+  </div>
+  {{/unless}}
+
+</div>

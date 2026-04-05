@@ -1,0 +1,35 @@
+{
+  "id": "celestial-calendar",
+  "title": "Celestial Calendar",
+  "description": "Multi-moon phase tracker and night sky viewer for fantasy worlds. Track conjunctions, eclipses, oppositions, and full/new moon events with narrative boons and pitfalls for your players. Supports custom world calendars exported from the DnD Parser Toolkit. Optionally syncs with Simple Calendar for automatic date tracking.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "12"
+  },
+  "authors": [
+    {
+      "name": "Tonyb29",
+      "url": "https://github.com/Tonyb29"
+    }
+  ],
+  "scripts": ["scripts/celestial.js"],
+  "styles": ["styles/celestial.css"],
+  "languages": [],
+  "packs": [],
+  "relationships": {
+    "optional": [
+      {
+        "id": "foundryvtt-simple-calendar",
+        "type": "module",
+        "reason": "Enables automatic date sync. Without it, set the current campaign day manually in Module Settings."
+      }
+    ]
+  },
+  "manifest": "https://raw.githubusercontent.com/Tonyb29/Celestial-Calendar/main/module.json",
+  "download": "https://github.com/Tonyb29/Celestial-Calendar/releases/latest/download/celestial-calendar.zip",
+  "readme": "https://raw.githubusercontent.com/Tonyb29/Celestial-Calendar/main/README.md",
+  "url": "https://github.com/Tonyb29/Celestial-Calendar",
+  "bugs": "https://github.com/Tonyb29/Celestial-Calendar/issues",
+  "changelog": "https://github.com/Tonyb29/Celestial-Calendar/releases"
+}
