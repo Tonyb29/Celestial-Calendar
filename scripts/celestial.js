@@ -481,10 +481,10 @@
     var mod = game.modules.get(MODULE_ID);
     if (mod) {
       mod.api = {
-        openPanel:     openPanel,
-        getCurrentDay: getCurrentDay,
-        setCurrentDay: setCurrentDay,
-        getCalendar:   getCalendar,
+        openPanel:      openPanel,
+        getCurrentDay:  getCurrentDay,
+        setCurrentDay:  setCurrentDay,
+        getCalendar:    getCalendar,
         getTodayEvents: getTodayEvents,
         getYearEvents:  getYearEvents,
       };
@@ -494,15 +494,74 @@
       if (_panel) _panel.syncToSC();
     });
 
-    ui.notifications.info('✦ Celestial Calendar loaded. Click the moon button in the Journal sidebar.');
+    ui.notifications.info('✦ Celestial Calendar loaded. Click the moon icon in the Scene Controls toolbar.');
   });
 
-  // Moon button in the Journal sidebar
-  Hooks.on('renderJournalDirectory', function (app, html) {
-    if (html.find('.cel-journal-btn').length) return;
-    var btn = $('<button class="cel-journal-btn" title="Celestial Calendar — Night Sky"><i class="fas fa-moon"></i></button>');
-    btn.on('click', function (e) { e.preventDefault(); openPanel(); });
-    html.find('.directory-header .action-buttons, .directory-header .header-actions').first().append(btn);
+  // ── Scene controls button (primary access — works standalone like Simple Calendar) ──
+  // Fires on v11/v12. getSceneControls fires on v13+. We register both defensively.
+  function addSceneControlButton(controls) {
+    try {
+      if (!Array.isArray(controls)) return;
+      if (controls.some(function (c) { return c.name === MODULE_ID; })) return;
+      controls.push({
+        name:        MODULE_ID,
+        title:       '✦ Celestial Calendar',
+        icon:        'fas fa-moon',
+        layer:       'tokens',
+        tools: [{
+          name:    'open-panel',
+          title:   'Open Night Sky',
+          icon:    'fas fa-moon',
+          button:  true,
+          onClick: function () { openPanel(); },
+        }],
+      });
+    } catch (e) {
+      console.warn('Celestial Calendar | Could not add scene control button:', e);
+    }
+  }
+
+  Hooks.on('getSceneControlButtons', addSceneControlButton); // v11 / v12
+  Hooks.on('getSceneControls',       addSceneControlButton); // v13+
+
+  // ── Journal sidebar button (secondary access, best-effort across versions) ──
+  // v11/v12: html is a jQuery object.
+  // v13: html is a native HTMLElement — wrap it if jQuery is present.
+  function injectSidebarButton(html) {
+    try {
+      var root = (typeof jQuery !== 'undefined' && html instanceof HTMLElement)
+        ? jQuery(html) : html;
+      if (!root || typeof root.find !== 'function') return;
+      if (root.find('.cel-journal-btn').length > 0) return;
+
+      // Try selectors in order from most-specific (v12) to broadest (v13 fallback)
+      var $target = root.find([
+        '.directory-header .header-actions',
+        '.directory-header .action-buttons',
+        '.directory-header .controls',
+        '.directory-header',
+      ].join(', ')).first();
+
+      if (!$target.length) return;
+
+      var $btn = jQuery('<button>', {
+        type:  'button',
+        class: 'cel-journal-btn',
+        title: 'Celestial Calendar — Night Sky',
+        html:  '<i class="fas fa-moon"></i>',
+      });
+      $btn.on('click', function (e) { e.preventDefault(); e.stopPropagation(); openPanel(); });
+      $target.append($btn);
+    } catch (e) {
+      console.warn('Celestial Calendar | Could not inject journal sidebar button:', e);
+    }
+  }
+
+  Hooks.on('renderJournalDirectory', function (app, html) { injectSidebarButton(html); });
+  Hooks.on('renderSidebarTab',       function (app, html) {
+    if (!app || !app.constructor) return;
+    if (app.constructor.name !== 'JournalDirectory') return;
+    injectSidebarButton(html);
   });
 
 })();
