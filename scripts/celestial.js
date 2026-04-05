@@ -1,5 +1,5 @@
 /* ================================================================
- * Celestial Calendar — Foundry VTT Module v1.0.0
+ * Celestial Calendar — Foundry VTT Module v1.2.0
  * Author:  Tonyb29 | https://github.com/Tonyb29
  * Repo:    https://github.com/Tonyb29/Celestial-Calendar
  * License: MIT
@@ -422,6 +422,10 @@
         self._day = getCurrentDay();
         self.render(false);
       });
+
+      html.find('[data-action="edit-calendar"]').on('click', function () {
+        openEditor();
+      });
     }
 
     syncToSC() {
@@ -431,13 +435,165 @@
     }
   }
 
+  // ── Calendar Editor Application ───────────────────────────────────────────
+  var EVENT_TYPES = [
+    { type: 'fullMoon',    label: 'Full Moon',    icon: '🌕', color: '#fde68a' },
+    { type: 'newMoon',     label: 'New Moon',     icon: '🌑', color: '#94a3b8' },
+    { type: 'conjunction', label: 'Conjunction',  icon: '✦',  color: '#c084fc' },
+    { type: 'opposition',  label: 'Opposition',   icon: '↔',  color: '#60a5fa' },
+    { type: 'eclipse',     label: 'Eclipse',      icon: '◎',  color: '#f87171' },
+  ];
+
+  class CelestialEditorApp extends Application {
+    constructor() {
+      super();
+      // Work on a deep copy so Cancel discards all changes
+      this._cal = JSON.parse(JSON.stringify(getCalendar()));
+    }
+
+    static get defaultOptions() {
+      return foundry.utils.mergeObject(super.defaultOptions, {
+        id:        MODULE_ID + '-editor',
+        title:     '⚙ Celestial Calendar — Edit World',
+        template:  'modules/' + MODULE_ID + '/templates/editor.hbs',
+        width:     500,
+        height:    'auto',
+        resizable: true,
+        popOut:    true,
+        classes:   ['cel-app', 'cel-editor'],
+      });
+    }
+
+    getData() {
+      var cal = this._cal;
+      // Ensure eventEffects exists for all types
+      EVENT_TYPES.forEach(function (et) {
+        if (!cal.eventEffects) cal.eventEffects = {};
+        if (!cal.eventEffects[et.type]) cal.eventEffects[et.type] = { boons: [], pitfalls: [] };
+      });
+      return {
+        calName:     cal.name,
+        daysPerYear: cal.daysPerYear,
+        moons: cal.moons.map(function (m, i) {
+          return {
+            index:      i,
+            id:         m.id,
+            name:       m.name,
+            orbitDays:  m.orbitDays,
+            size:       m.size,
+            color:      m.color,
+            startPhase: m.startPhase || 0,
+          };
+        }),
+        eventTypes: EVENT_TYPES.map(function (et) {
+          var fx = cal.eventEffects[et.type] || { boons: [], pitfalls: [] };
+          return {
+            type:     et.type,
+            label:    et.label,
+            icon:     et.icon,
+            color:    et.color,
+            boons:    fx.boons.join('\n'),
+            pitfalls: fx.pitfalls.join('\n'),
+          };
+        }),
+      };
+    }
+
+    // Read current form values back into this._cal (called before any re-render)
+    _syncFromForm(html) {
+      var cal = this._cal;
+      var $h  = (typeof jQuery !== 'undefined' && html instanceof HTMLElement) ? jQuery(html) : html;
+      if (!$h || typeof $h.find !== 'function') return;
+
+      cal.name       = ($h.find('[name="calName"]').val()      || '').trim() || cal.name;
+      cal.daysPerYear = parseInt($h.find('[name="daysPerYear"]').val(), 10) || cal.daysPerYear;
+
+      cal.moons.forEach(function (moon, i) {
+        moon.name       = ($h.find('[name="moon-name-'  + i + '"]').val() || '').trim() || moon.name;
+        moon.orbitDays  = parseInt($h.find('[name="moon-orbit-' + i + '"]').val(), 10) || moon.orbitDays;
+        moon.size       = $h.find('[name="moon-size-'  + i + '"]').val() || moon.size;
+        moon.color      = $h.find('[name="moon-color-' + i + '"]').val() || moon.color;
+        moon.startPhase = parseFloat($h.find('[name="moon-start-' + i + '"]').val()) || 0;
+      });
+
+      EVENT_TYPES.forEach(function (et) {
+        var boons    = ($h.find('[name="boons-'    + et.type + '"]').val() || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+        var pitfalls = ($h.find('[name="pitfalls-' + et.type + '"]').val() || '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+        cal.eventEffects[et.type] = { boons: boons, pitfalls: pitfalls };
+      });
+    }
+
+    activateListeners(html) {
+      super.activateListeners(html);
+      var self = this;
+      var $h   = (typeof jQuery !== 'undefined' && html instanceof HTMLElement) ? jQuery(html) : html;
+
+      // Set select values (Handlebars has no reliable eq helper across all FVT versions)
+      self._cal.moons.forEach(function (moon, i) {
+        $h.find('[name="moon-size-' + i + '"]').val(moon.size);
+      });
+
+      // Add moon
+      $h.find('[data-action="add-moon"]').on('click', function () {
+        self._syncFromForm($h);
+        self._cal.moons.push({
+          id: 'moon' + Date.now(),
+          name: 'New Moon',
+          orbitDays: 28,
+          size: 'medium',
+          color: '#e2e8f0',
+          startPhase: 0,
+          description: '',
+        });
+        self.render(false);
+      });
+
+      // Remove moon
+      $h.find('[data-action="remove-moon"]').on('click', function () {
+        var idx = parseInt(this.dataset.index, 10);
+        self._syncFromForm($h);
+        self._cal.moons.splice(idx, 1);
+        if (self._cal.moons.length === 0) {
+          ui.notifications.warn('Celestial Calendar | At least one moon is required.');
+          self._cal.moons.push({ id: 'moon1', name: 'Moon', orbitDays: 30, size: 'medium', color: '#e2e8f0', startPhase: 0, description: '' });
+        }
+        self.render(false);
+      });
+
+      // Save
+      $h.find('[data-action="save"]').on('click', function () {
+        self._syncFromForm($h);
+        var cal = self._cal;
+        if (!cal.name || cal.moons.length === 0) {
+          ui.notifications.warn('Celestial Calendar | World needs a name and at least one moon.');
+          return;
+        }
+        game.settings.set(MODULE_ID, 'calendarData', JSON.stringify(cal));
+        ui.notifications.info('Celestial Calendar | "' + cal.name + '" saved.');
+        if (_panel && _panel.rendered) _panel.render(false);
+        self.close();
+      });
+
+      // Cancel
+      $h.find('[data-action="cancel"]').on('click', function () {
+        self.close();
+      });
+    }
+  }
+
   // ── Module lifecycle ──────────────────────────────────────────────────────
-  var _panel = null;
+  var _panel  = null;
+  var _editor = null;
 
   function openPanel() {
     if (!_panel) _panel = new CelestialCalendarApp();
     if (_panel.rendered) _panel.close();
     else _panel.render(true);
+  }
+
+  function openEditor() {
+    if (!_editor || !_editor.rendered) _editor = new CelestialEditorApp();
+    _editor.render(true);
   }
 
   Hooks.once('init', function () {

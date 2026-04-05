@@ -2,7 +2,7 @@
   "id": "celestial-calendar",
   "title": "Celestial Calendar",
   "description": "Multi-moon phase tracker and night sky viewer for fantasy worlds. Track conjunctions, eclipses, oppositions, and full/new moon events with narrative boons and pitfalls for your players. Supports custom world calendars exported from the DnD Parser Toolkit. Optionally syncs with Simple Calendar for automatic date tracking.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "compatibility": {
     "minimum": "11",
     "verified": "13"
