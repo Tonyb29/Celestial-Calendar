@@ -1,18 +1,15 @@
 <div class="cel-panel">
 
+  {{!-- Centered world title above the sky --}}
+  <div class="cel-title">{{calName}} Night Sky</div>
+
   {{!-- Night sky SVG --}}
   <div class="cel-sky-wrap">{{{skyHtml}}}</div>
 
-  {{!-- World name + edit button (row 1) / year event count (row 2) --}}
-  <div class="cel-world-header">
-    <div class="cel-world-row">
-      <span class="cel-world-name">{{calName}}</span>
-      <button type="button" data-action="edit-calendar" class="cel-edit-btn" title="Edit world calendar">⚙</button>
-    </div>
-    <div class="cel-year-badge">{{yearEventsCount}} celestial events this year</div>
-  </div>
+  {{!-- Year event count — centered below sky --}}
+  <div class="cel-year-badge">{{yearEventsCount}} celestial events this year</div>
 
-  {{!-- Day navigator --}}
+  {{!-- Day navigator — gear lives here, out of the way --}}
   <div class="cel-nav">
     <button type="button" data-action="prev-event" title="Jump to previous event">← Event</button>
     <button type="button" data-action="nav" data-delta="-7" title="-7 days">−7</button>
@@ -25,6 +22,7 @@
     <button type="button" data-action="nav" data-delta="7" title="+7 days">+7</button>
     <button type="button" data-action="next-event" title="Jump to next event">Event →</button>
     <button type="button" data-action="reset" title="Return to today">⟳</button>
+    <button type="button" data-action="edit-calendar" title="Edit world calendar">⚙</button>
   </div>
 
   {{!-- Moon cards --}}
