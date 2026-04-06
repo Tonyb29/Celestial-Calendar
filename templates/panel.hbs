@@ -3,11 +3,13 @@
   {{!-- Night sky SVG --}}
   <div class="cel-sky-wrap">{{{skyHtml}}}</div>
 
-  {{!-- World name + year event count + edit button --}}
+  {{!-- World name + edit button (row 1) / year event count (row 2) --}}
   <div class="cel-world-header">
-    <span class="cel-world-name">{{calName}}</span>
-    <span class="cel-year-badge">{{yearEventsCount}} events this year</span>
-    <button type="button" data-action="edit-calendar" class="cel-edit-btn" title="Edit world calendar">⚙</button>
+    <div class="cel-world-row">
+      <span class="cel-world-name">{{calName}}</span>
+      <button type="button" data-action="edit-calendar" class="cel-edit-btn" title="Edit world calendar">⚙</button>
+    </div>
+    <div class="cel-year-badge">{{yearEventsCount}} celestial events this year</div>
   </div>
 
   {{!-- Day navigator --}}

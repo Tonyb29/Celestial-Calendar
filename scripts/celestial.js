@@ -650,7 +650,7 @@
       if (_panel) _panel.syncToSC();
     });
 
-    ui.notifications.info('✦ Celestial Calendar loaded. Click the moon icon in the Scene Controls toolbar.');
+    ui.notifications.info('✦ Celestial Calendar loaded. Click the moon button in the Journal tab sidebar.');
   });
 
   // ── Scene controls button (primary access — works standalone like Simple Calendar) ──

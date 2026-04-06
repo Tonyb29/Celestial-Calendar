@@ -40,9 +40,16 @@
 /* ── World header ── */
 .cel-world-header {
   display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 2px;
+}
+
+.cel-world-row {
+  display: flex;
   align-items: center;
   gap: 8px;
-  padding: 0 2px;
+  min-width: 0;
 }
 
 .cel-world-name {
@@ -51,6 +58,10 @@
   color: #67e8f9;
   letter-spacing: 0.03em;
   flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cel-year-badge {
