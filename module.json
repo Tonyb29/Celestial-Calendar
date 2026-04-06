@@ -2,7 +2,7 @@
   "id": "celestial-calendar",
   "title": "Celestial Calendar",
   "description": "Multi-moon phase tracker and night sky viewer for fantasy worlds. Track conjunctions, eclipses, oppositions, and full/new moon events with narrative boons and pitfalls for your players. Supports custom world calendars exported from the DnD Parser Toolkit. Optionally syncs with Simple Calendar for automatic date tracking.",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "compatibility": {
     "minimum": "11",
     "verified": "13"
@@ -22,7 +22,7 @@
       {
         "id": "foundryvtt-simple-calendar",
         "type": "module",
-        "reason": "Enables automatic date sync. Without it, set the current campaign day manually in Module Settings."
+        "reason": "Enables automatic date sync. Compatible with both Simple Calendar and Simple Calendar Reborn — both share the same module ID and API. Without it, set the current campaign day manually in Module Settings."
       }
     ]
   },

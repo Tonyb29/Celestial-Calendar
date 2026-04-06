@@ -81,9 +81,18 @@ If you use the companion **[DnD Parser Toolkit](https://github.com/Tonyb29/Tonyb
 
 ## Simple Calendar Integration
 
-Install [Simple Calendar](https://foundryvtt.com/packages/foundryvtt-simple-calendar) for automatic date sync. When active, the Night Sky panel updates whenever the in-game date changes — no manual day setting required.
+Celestial Calendar integrates with both **Simple Calendar** and **[Simple Calendar Reborn](https://foundryvtt.com/packages/foundryvtt-simple-calendar-reborn)** — both share the same module ID and API, so the integration works identically with either.
+
+When active, the Night Sky panel updates automatically whenever the in-game date changes — no manual day setting required. If Simple Calendar is installed, a moon button is also added directly to its sidebar via the official `addSidebarButton` API.
 
 Use **Simple Calendar Day Offset** in Module Settings to align campaign days if your Simple Calendar year starts at a different offset.
+
+| | Simple Calendar | Simple Calendar Reborn |
+|---|---|---|
+| Foundry v11/v12 | ✅ | — |
+| Foundry v13 | — | ✅ |
+| Auto date sync | ✅ | ✅ |
+| SC sidebar button | ✅ | ✅ |
 
 ---
 
@@ -130,6 +139,7 @@ Celestial Calendar is actively developed as part of a larger DM toolkit. Planned
 
 | Version | Notes |
 |---|---|
+| 1.3.0 | Simple Calendar Reborn compatibility; SC sidebar button via official API |
 | 1.2.4 | Centered title above sky, ⚙ in nav bar, larger event text, year count below sky |
 | 1.2.3 | World name display fix, gear right-aligned |
 | 1.2.2 | Header layout fix attempt |

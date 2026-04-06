@@ -646,8 +646,26 @@
       };
     }
 
+    // Simple Calendar (original) and Simple Calendar Reborn share the same
+    // module ID, hook names, and API — this integration works with both.
     Hooks.on('simple-calendar-date-time-change', function () {
       if (_panel) _panel.syncToSC();
+    });
+
+    // When Simple Calendar (or Reborn) is ready, register a proper sidebar button
+    // via their official API. This is more reliable than DOM injection.
+    Hooks.on('simple-calendar-ready', function () {
+      try {
+        if (SimpleCalendar && SimpleCalendar.api && SimpleCalendar.api.addSidebarButton) {
+          SimpleCalendar.api.addSidebarButton(
+            'Celestial Calendar',
+            'fas fa-moon',
+            MODULE_ID + '-sc-btn',
+            false,
+            function () { openPanel(); }
+          );
+        }
+      } catch (e) { /* addSidebarButton not available in this SC version — fall through */ }
     });
 
     ui.notifications.info('✦ Celestial Calendar loaded. Click the moon button in the Journal tab sidebar.');
