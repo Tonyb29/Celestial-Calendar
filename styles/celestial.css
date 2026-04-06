@@ -42,13 +42,13 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 0 2px;
 }
 
 .cel-world-row {
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
   min-width: 0;
 }
 
